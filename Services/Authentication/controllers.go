@@ -46,6 +46,9 @@ func signUp(signUpUser AuthSignUp) string {
 	//setting all users to the exists property true
 	signUpUser.IsExists = true
 
+	//TODO:Add the imageUrl and set the image url to the db
+	//TODO:Default load the image with cover.jpg
+
 	dbSet, err2 := db.Collection("USERS").Doc(done.UID).Set(context.TODO(), signUpUser)
 
 	if err2 != nil {
