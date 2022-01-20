@@ -42,9 +42,7 @@ func EndPoint(next http.Handler) http.Handler {
 					tokenInfo := token.UID
 					fmt.Println(tokenInfo)
 					r.Body = io.NopCloser(strings.NewReader(tokenInfo))
-
 					next.ServeHTTP(w, r)
-
 				}
 			}
 		}
