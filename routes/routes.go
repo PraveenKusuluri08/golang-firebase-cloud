@@ -2,6 +2,8 @@ package routes
 
 import (
 	"github.com/PraveenKusuluri08/Services/Authentication"
+	"github.com/PraveenKusuluri08/Services/Posts"
+	"github.com/PraveenKusuluri08/helpers"
 	"github.com/gorilla/mux"
 )
 
@@ -11,6 +13,12 @@ func Router() *mux.Router {
 	authentication := router.PathPrefix("/auth").Subrouter()
 
 	authentication.HandleFunc("/signUp", Authentication.SignUp).Methods("POST")
+
+	posts := router.PathPrefix("/posts").Subrouter()
+
+	posts.Use(helpers.EndPoint)
+
+	posts.HandleFunc("/createpost", Posts.CreatePost).Methods("POSTS")
 
 	return router
 
