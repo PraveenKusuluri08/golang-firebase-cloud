@@ -23,7 +23,7 @@ func Router() *mux.Router {
 
 	users := router.PathPrefix("/users").Subrouter()
 
-	users.HandleFunc("/updateUser", Users.UpdateUser).Methods("PUT")
+	users.HandleFunc("/updateUser/{uid}", Users.UpdateUser).Methods("PUT")
 
 	return router
 
