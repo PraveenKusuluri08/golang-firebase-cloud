@@ -20,6 +20,8 @@ func createPost(post Posts) string {
 	app := utils.InitializeFbApp()
 	post.CreatedAt = time.Now()
 
+	fmt.Println(post)
+
 	db, _ := app.Firestore(context.Background())
 
 	_, set, err := db.Collection("POSTS").Add(context.Background(), post)
@@ -42,4 +44,26 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	if msg := createPost(post); msg != "" {
 		json.NewEncoder(w).Encode(msg)
 	}
+}
+
+func getAllPosts() {
+	app := utils.InitializeFbApp()
+
+	client, err := app.Firestore(context.Background())
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	data := client.Collection("POSTS").Where("isExists", "==", true)
+
+	fmt.Println(data)
+}
+
+func GetAllPosts(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	getAllPosts()
+
+	json.NewEncoder(w).Encode("done")
 }
