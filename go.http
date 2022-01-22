@@ -3,3 +3,19 @@ PUT http://localhost:5000/users/updateUser/CEhyALaJglXuK92zARwJDiaTwDi2
 {
     "name":"Praveen08"
 }
+
+###
+
+POST http://localhost:5000/posts/createpost
+
+{
+    "post":"This is really good in golang",
+    "email":"Praveenkusuluri08@gmail.com",
+    "isExists":true,
+    "likesCount":0,
+    "commentsCount":0
+
+}
+
+
+GET localhost:5000/posts/getallposts
