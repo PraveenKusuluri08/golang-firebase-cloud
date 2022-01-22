@@ -49,7 +49,7 @@ func signUp(signUpUser AuthSignUp) string {
 	//TODO:Add the imageUrl and set the image url to the db
 	//TODO:Default load the image with cover.jpg
 
-	dbSet, err2 := db.Collection("USERS").Doc(done.UID).Set(context.TODO(), signUpUser)
+	dbSet, err2 := db.Collection("USERS-GOLANG").Doc(done.UID).Set(context.TODO(), signUpUser)
 
 	if err2 != nil {
 		return "Failed to initialize with db"
