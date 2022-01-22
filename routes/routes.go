@@ -29,6 +29,8 @@ func Router() *mux.Router {
 
 	posts.HandleFunc("/commentonpost/{postId}", Posts.DoCommnet).Methods("POST")
 
+	posts.HandleFunc("/getsinglepost/{postId}", Posts.GetSinglePost).Methods("GET")
+
 	//USERS 👬
 
 	users := router.PathPrefix("/users").Subrouter()
