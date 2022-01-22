@@ -1,0 +1,5 @@
+PUT http://localhost:5000/users/updateUser/CEhyALaJglXuK92zARwJDiaTwDi2
+
+{
+    "name":"Praveen08"
+}
