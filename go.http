@@ -28,3 +28,7 @@ POST http://localhost:5000/posts/commentonpost/NqICEIeOA1ZEMVegUsEK
     "comment":"Golang 💌",
     "email":"Praveenkusuluri08@gmail.com"
 }
+
+###
+
+GET http://localhost:5000/posts/getsinglepost/NqICEIeOA1ZEMVegUsEK

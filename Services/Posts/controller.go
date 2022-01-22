@@ -166,3 +166,33 @@ func DoCommnet(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(msg)
 
 }
+
+//GET Single Post from db
+
+func getSinglePost(postId string) map[string]interface{} {
+
+	client, err := app.Firestore(context.Background())
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	data, err1 := client.Collection("POSTS-GOLANG").Doc(postId).Get(context.Background())
+
+	if err != nil {
+		log.Fatal(err1)
+	}
+	return data.Data()
+
+}
+
+func GetSinglePost(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Allow-Origin-Allow-Methods", "GET")
+
+	params := mux.Vars(r)
+
+	data := getSinglePost(params["postId"])
+
+	json.NewEncoder(w).Encode(data)
+}
