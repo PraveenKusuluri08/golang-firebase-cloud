@@ -9,13 +9,22 @@ PUT http://localhost:5000/users/updateUser/CEhyALaJglXuK92zARwJDiaTwDi2
 POST http://localhost:5000/posts/createpost
 
 {
-    "post":"This is really good in golang",
+    "post":"Golang is Awesome",
     "email":"Praveenkusuluri08@gmail.com",
     "isExists":true,
     "likesCount":0,
     "commentsCount":0
 
 }
+###
 
+GET http://localhost:5000/posts/getallposts
 
-GET localhost:5000/posts/getallposts
+###
+
+POST http://localhost:5000/posts/commentonpost/NqICEIeOA1ZEMVegUsEK
+
+{
+    "comment":"Golang 💌",
+    "email":"Praveenkusuluri08@gmail.com"
+}

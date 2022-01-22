@@ -10,9 +10,12 @@ import (
 func Router() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 
+	//Authentication 🔒
 	authentication := router.PathPrefix("/auth").Subrouter()
 
 	authentication.HandleFunc("/signUp", Authentication.SignUp).Methods("POST")
+
+	//POSTS 🚩
 
 	createPosts := router.PathPrefix("/posts").Subrouter()
 
@@ -23,6 +26,10 @@ func Router() *mux.Router {
 	posts := router.PathPrefix("/posts").Subrouter()
 
 	posts.HandleFunc("/getallposts", Posts.GetAllPosts)
+
+	posts.HandleFunc("/commentonpost/{postId}", Posts.DoCommnet).Methods("POST")
+
+	//USERS 👬
 
 	users := router.PathPrefix("/users").Subrouter()
 
