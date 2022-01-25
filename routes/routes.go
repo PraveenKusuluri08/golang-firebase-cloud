@@ -35,6 +35,8 @@ func Router() *mux.Router {
 
 	users := router.PathPrefix("/users").Subrouter()
 
+	users.HandleFunc("/getauthuserdata/{uid}/{email}", Users.GetAuthUserData).Methods("GET")
+
 	users.HandleFunc("/updateUser/{uid}", Users.UpdateUser).Methods("PUT")
 
 	return router
