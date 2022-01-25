@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"time"
 
+	"cloud.google.com/go/firestore"
 	"github.com/PraveenKusuluri08/utils"
 	"github.com/gorilla/mux"
 	"google.golang.org/api/iterator"
@@ -195,4 +196,60 @@ func GetSinglePost(w http.ResponseWriter, r *http.Request) {
 	data := getSinglePost(params["postId"])
 
 	json.NewEncoder(w).Encode(data)
+}
+
+func likePost(postId string, postsData PostsLikesModel) string {
+	client, err := app.Firestore(context.Background())
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	postLikes := client.Collection("POST-LIKES-GOLANG").NewDoc()
+	postsData.LikedAt = time.Now().Day()
+	postLikes.Set(context.Background(), map[string]interface{}{
+		// email will recieve from the end point decoded data
+		// as of now just recieve it from body
+		"email":   postsData.Email,
+		"docId":   postLikes.ID,
+		"postId":  postId,
+		"likedAt": postsData.LikedAt,
+	})
+	postData := client.Collection("POSTS-GOLANG").Doc(postId)
+
+	doc, err1 := postData.Get(context.Background())
+	var likesCount = doc.Data()["LikesCount"]
+	fmt.Println(likesCount)
+	if err1 != nil {
+		log.Fatal(err1)
+	}
+	if doc.Exists() {
+		if _, err2 := postData.Update(context.Background(), []firestore.Update{
+			{
+				Path:  "LikesCount",
+				Value: firestore.Increment(1),
+			},
+		}); err2 != nil {
+			log.Fatal(err2)
+		}
+
+	}
+	return "Post Liked"
+}
+
+func LikePost(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Allow-Origin-Allow-Methods", "POST")
+
+	var postLikes PostsLikesModel
+
+	_ = json.NewDecoder(r.Body).Decode(&postLikes)
+
+	params := mux.Vars(r)
+
+	defer r.Body.Close()
+
+	msg := likePost(params["postId"], postLikes)
+
+	json.NewEncoder(w).Encode(msg)
+
 }
