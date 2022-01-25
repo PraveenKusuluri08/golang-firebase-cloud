@@ -32,3 +32,15 @@ POST http://localhost:5000/posts/commentonpost/NqICEIeOA1ZEMVegUsEK
 ###
 
 GET http://localhost:5000/posts/getsinglepost/NqICEIeOA1ZEMVegUsEK
+
+###
+
+GET http://localhost:5000/users/getauthuserdata/NiFRR0MuKTXZO8JRX5g9ViwPtpB3/Praveen09@gmail.com
+
+
+
+POST http://localhost:5000/posts/likepost/NqICEIeOA1ZEMVegUsEK 
+
+{
+    "email":"Praveenkusuluri08@gmail.com"
+}

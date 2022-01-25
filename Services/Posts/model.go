@@ -21,3 +21,9 @@ type Comment struct {
 	PostId       string    `json:"postId"`
 	CommentLikes int64     `json:"commentLikes"`
 }
+
+type PostsLikesModel struct {
+	Email   string `json:"email"`
+	LikedAt int    `json:"likedAt"`
+	DocId   string `json:"docId"`
+}
