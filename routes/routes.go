@@ -33,6 +33,8 @@ func Router() *mux.Router {
 
 	posts.HandleFunc("/likepost/{postId}", Posts.LikePost).Methods("POST")
 
+	posts.HandleFunc("/unlikePost/{postId}", Posts.UnLikePost).Methods("POST")
+
 	//USERS 👬
 
 	users := router.PathPrefix("/users").Subrouter()
