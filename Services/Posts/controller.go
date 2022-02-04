@@ -251,5 +251,62 @@ func LikePost(w http.ResponseWriter, r *http.Request) {
 	msg := likePost(params["postId"], postLikes)
 
 	json.NewEncoder(w).Encode(msg)
+}
+
+func unLikePost(postId string, body PostsLikesModel) string {
+	client, err := app.Firestore(context.Background())
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	postLikes := client.Collection("POSTS-LIKE-GOLANG").Where("email", "==", body.Email).Where("postId", "==", postId).Limit(1)
+
+	post := client.Collection("POSTS-GOLANG").Doc(postId)
+
+	doc, err1 := post.Get(context.Background())
+	var postData map[string]interface{}
+	if err1 != nil {
+		log.Fatal(err1)
+	}
+	if doc.Exists() {
+		postData = doc.Data()
+		postData["postId"] = doc.Ref.ID
+	} else {
+		return "Post Document not exists"
+	}
+	dataPostLikes := postLikes.Documents(context.Background())
+	for {
+		doc, err := dataPostLikes.Next()
+		if err == iterator.Done {
+			break
+		}
+
+		if err != nil {
+			return "Post not exists"
+		}
+		doc.Ref.Delete(context.Background())
+
+		post.Update(context.Background(), []firestore.Update{{
+			Path:  "likeCount",
+			Value: -1,
+		}})
+		break
+	}
+	return "Post unliked"
+}
+
+func UnLikePost(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Allow-Origin-Allow-Methods", "POST")
+	var postLikes PostsLikesModel
+	_ = json.NewDecoder(r.Body).Decode(&postLikes)
+
+	params := mux.Vars(r)
+
+	msg := unLikePost(params["postId"], postLikes)
+
+	json.NewEncoder(w).Encode(msg)
 
 }
