@@ -4,6 +4,7 @@ import (
 	"github.com/PraveenKusuluri08/Services/Authentication"
 	"github.com/PraveenKusuluri08/Services/Posts"
 	"github.com/PraveenKusuluri08/Services/Users"
+	"github.com/PraveenKusuluri08/helpers"
 	"github.com/gorilla/mux"
 )
 
@@ -19,11 +20,13 @@ func Router() *mux.Router {
 
 	createPosts := router.PathPrefix("/posts").Subrouter()
 
-	// createPosts.Use(helpers.EndPoint)
+	createPosts.Use(helpers.EndPoint)
 
 	createPosts.HandleFunc("/createpost", Posts.CreatePost).Methods("POST")
 
 	posts := router.PathPrefix("/posts").Subrouter()
+
+	posts.Use(helpers.EndPoint)
 
 	posts.HandleFunc("/getallposts", Posts.GetAllPosts)
 
@@ -34,6 +37,8 @@ func Router() *mux.Router {
 	//USERS 👬
 
 	users := router.PathPrefix("/users").Subrouter()
+
+	users.Use(helpers.EndPoint)
 
 	users.HandleFunc("/getauthuserdata/{uid}/{email}", Users.GetAuthUserData).Methods("GET")
 
